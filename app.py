@@ -20,7 +20,6 @@ st.set_page_config(page_title="Disease Prediction System", page_icon="🏥", lay
 
 st.title("🏥 Disease Prediction System")
 st.caption("Healthcare Analytics using Machine Learning")
-st.warning("Educational decision-support application. This system is not a medical diagnosis and should not replace a qualified healthcare professional.")
 
 @st.cache_data
 def load_data(uploaded_file=None):
