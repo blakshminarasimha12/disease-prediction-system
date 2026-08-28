@@ -1,0 +1,1 @@
+Project screenshots and visual assets can be stored here.
