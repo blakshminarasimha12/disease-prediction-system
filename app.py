@@ -325,14 +325,20 @@ with b:
             default=numeric.columns.tolist()[:min(5, len(numeric.columns))]
         )
         if box_features:
-            fig, ax = plt.subplots()
-            ax.boxplot(
-                [numeric[c].dropna() for c in box_features],
-                labels=box_features
-            )
-            ax.tick_params(axis="x", rotation=30)
-            st.pyplot(fig)
-            plt.close(fig)
+            box_data = [pd.to_numeric(numeric[c], errors="coerce").dropna().to_numpy() for c in box_features]
+            valid_pairs = [(name, values) for name, values in zip(box_features, box_data) if len(values) > 0]
+            if valid_pairs:
+                valid_names = [name for name, _ in valid_pairs]
+                valid_data = [values for _, values in valid_pairs]
+                fig, ax = plt.subplots()
+                ax.boxplot(valid_data)
+                ax.set_xticks(range(1, len(valid_names) + 1))
+                ax.set_xticklabels(valid_names, rotation=30, ha="right")
+                ax.set_ylabel("Value")
+                st.pyplot(fig)
+                plt.close(fig)
+            else:
+                st.info("Selected features contain no valid numeric values.")
     else:
         st.info("No numerical features available.")
 
